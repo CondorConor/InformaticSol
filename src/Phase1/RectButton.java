@@ -5,12 +5,12 @@ import processing.core.PFont;
 
 public class RectButton {
     String text;
-    float x, y, w, h;
+    int x, y, w, h;
     int colorDisabled;
     int colorMouseOn;
     int colorMouseOff;
     boolean enabled;
-    RectButton(PApplet p5, String text, float x, float y, float w, float h, boolean enabled){
+    RectButton(PApplet p5, String text, int x, int y, int w, int h, boolean enabled){
         this.text = text;
         this.x=x;
         this.y=y;
@@ -21,7 +21,7 @@ public class RectButton {
         colorMouseOn = p5.color(100,255,100);
         colorMouseOff = p5.color(50);
     }
-    void display(PApplet p5, PFont font){
+    void display(PApplet p5){
         p5.pushStyle();
         if(!enabled){
             p5.fill(colorDisabled);
@@ -36,7 +36,6 @@ public class RectButton {
         if(MouseOnButton(p5)&&enabled){
             p5.fill(0,220,0);
         }
-        p5.textFont(font,20);
         p5.text(text, this.x, this.y);
         p5.popStyle();
     }

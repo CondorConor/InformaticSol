@@ -1,8 +1,6 @@
 package Phase1;
-
 import processing.core.PApplet;
 import processing.core.PFont;
-
 public class GUI extends PApplet {
     public enum ScreenType {TITLESCREEN, SELECTIONSCREEN, STATSCREEN, BATTLESCREEN}
     PFont titleFont;
@@ -13,41 +11,32 @@ public class GUI extends PApplet {
     public static void main(String[] args) {
         PApplet.main("Phase1.GUI", args);
     }
-
     public void settings() {
         fullScreen();
         smooth(10);
     }
-
     public void setup() {
         frameRate(24);
         rectMode(3);
         textAlign(3, 3);
-        screens = new Screen[2];
+        screens = new Screen[3];
         screens[0] = new TitleScreen();
-        screens[0].initElements(this);
         screens[1] = new SelectionScreen();
-        screens[1].initElements(this);
+        screens[2] = new StatsScreen();
+        for (Screen screen : screens) {screen.initElements(this);}
         titleFont = createFont("BirchLeaf.ttf", 60);
         textFont = createFont("EpsonPixeled.ttf", 20);
         currentScreen = ScreenType.TITLESCREEN;
-
+        textFont(textFont, 15);
         }
-
-
     public void draw() {
-
         background(50);
         for (Screen screen : screens) {
             if (screen.screenType == currentScreen) {
-                screen.display(this, titleFont, textFont, frameCount, pvp);
+                screen.display(this, titleFont, frameCount, pvp);
             }
         }
-
     }
-
-    //vbnmn
-
     public void keyPressed(){
         if(currentScreen==ScreenType.TITLESCREEN){
             screens[0].keyPressed = true;
@@ -58,12 +47,10 @@ public class GUI extends PApplet {
         }else if(key=='2'){
             currentScreen = screens[1].screenType;
             ((SelectionScreen)screens[1]).playerChoosing = 1;
+        } else if(key=='3'){
+            currentScreen = screens[2].screenType;
         }
-
-
-
     }
-
     public void mousePressed(){
         if(currentScreen==ScreenType.TITLESCREEN && screens[0].keyPressed){
             if(screens[0].b1.ButtonPressed(this)){
