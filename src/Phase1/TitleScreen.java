@@ -20,6 +20,7 @@ public class TitleScreen extends Screen{
     void display(PApplet p5, PFont fontTitle, int iterator, boolean pvp){
 
         p5.pushStyle();
+        p5.fill(255);
         p5.textFont(fontTitle, 60);
         p5.text("MYTHS OF ARALUNA",p5.width*16/32 , p5.height*11/32, p5.width*22/32, p5.height+8/32);
         p5.popStyle();
@@ -28,7 +29,10 @@ public class TitleScreen extends Screen{
             b2.display(p5);
         }else{
             if(iterator%48<=24){
+                p5.pushStyle();
+                p5.fill(255);
                 p5.text("press enter to start", p5.width*16/32, p5.height*19/32);
+                p5.popStyle();
             }
         }
     }

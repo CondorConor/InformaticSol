@@ -17,12 +17,16 @@ public class GUI extends PApplet {
     }
     public void setup() {
         frameRate(24);
-        rectMode(3);
+        rectMode(CENTER);
         textAlign(3, 3);
-        screens = new Screen[3];
+        stroke(255);
+        strokeWeight(2);
+        fill(50);
+        screens = new Screen[4];
         screens[0] = new TitleScreen();
         screens[1] = new SelectionScreen();
         screens[2] = new StatsScreen();
+        screens[3] = new BattleScreen();
         for (Screen screen : screens) {screen.initElements(this);}
         titleFont = createFont("BirchLeaf.ttf", 60);
         textFont = createFont("EpsonPixeled.ttf", 20);
@@ -49,6 +53,8 @@ public class GUI extends PApplet {
             ((SelectionScreen)screens[1]).playerChoosing = 1;
         } else if(key=='3'){
             currentScreen = screens[2].screenType;
+        } else if(key=='4') {
+            currentScreen = screens[3].screenType;
         }
     }
     public void mousePressed(){

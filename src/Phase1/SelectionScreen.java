@@ -21,6 +21,8 @@ public class SelectionScreen extends Screen{
         b4 = new RectButton(p5, "Random pick", p5.width*28/32, p5.height*28/32, p5.width*5/32, p5.height*2/32, true);
     }
     void display(PApplet p5, PFont fontTitle,int frameCount, boolean pvp){
+        p5.pushStyle();
+        p5.fill(255);
         cb1.display(p5);
         cb2.display(p5);
         cb3.display(p5);
@@ -39,6 +41,7 @@ public class SelectionScreen extends Screen{
             topText = "Choose the AI characters";
         }
         p5.text(topText, p5.width*16/32, p5.height*2/32);
+        p5.popStyle();
 
     }
 }
