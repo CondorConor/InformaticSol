@@ -5,12 +5,13 @@ import processing.core.PFont;
 
 public class BattleScreen extends Screen{
 
-    GUI.ScreenType screenType = GUI.ScreenType.BATTLESCREEN;
+    GUI.ScreenType screenType;
     boolean battling;
     boolean choosing;
     boolean computerWins;
     void initElements(PApplet p){
-        battling = false;
+        screenType = GUI.ScreenType.BATTLESCREEN;
+        battling = true;
         choosing = true;
         computerWins = false;
         b1 = new RectButton(p, "Attack", p.width*16/32, p.height*22/32, p.width*10/32, p.height*3/32, true);

@@ -1,6 +1,9 @@
 package Phase1;
 
 import processing.core.PApplet;
+import processing.core.PImage;
+
+import static java.lang.Math.sqrt;
 
 public class CircularButton {
 
@@ -12,14 +15,21 @@ public class CircularButton {
         this.y = y;
         this.r = r;
     }
-
-    void display(PApplet p5){
+    boolean MouseOnButton(PApplet p5){
+        return abs(PApplet.dist(x,y,p5.mouseX, p5.mouseY))<=r;
+    }
+    float abs(float x){
+        if(x<0){
+            return -x;
+        }
+        return x;
+    }
+    void display(PApplet p5, PImage img){
         p5.pushStyle();
+        try{p5.image(img, x, y, r, r);}catch(Exception ignored){}
         p5.stroke(255);
-        p5.fill(50);
+        p5.noFill();
         p5.circle(x,y,r);
-        p5.fill(0);
-        p5.text(text, x, y);
         p5.popStyle();
     }
 }

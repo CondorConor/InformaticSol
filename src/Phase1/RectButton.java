@@ -42,9 +42,6 @@ public class RectButton {
     boolean MouseOnButton(PApplet p5){
         return abs(p5.mouseX-this.x)<this.w/2&&abs(p5.mouseY-this.y)<this.h/2;
     }
-    boolean ButtonPressed(PApplet p5){
-        return p5.mousePressed&&MouseOnButton(p5);
-    }
     float abs(float x){
         if(x<0){
             return -x;

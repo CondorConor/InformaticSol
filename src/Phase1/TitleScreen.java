@@ -7,6 +7,7 @@ import processing.core.PFont;
 public class TitleScreen extends Screen{
 
     public boolean pitjat = false;
+    boolean keyPressed;
     void initElements(PApplet p5){
         screenType = GUI.ScreenType.TITLESCREEN;
         keyPressed = false;
