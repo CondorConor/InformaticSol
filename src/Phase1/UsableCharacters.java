@@ -6,7 +6,7 @@ import processing.core.PImage;
 import static processing.awt.ShimAWT.loadImage;
 
 public class UsableCharacters {
-    Character[] characters = new Character[5];
+    Character[] characters = new Character[6];
     String special;
     PImage img = new PImage();
     PImage icon = new PImage();
@@ -18,14 +18,13 @@ public class UsableCharacters {
         img = p5.loadImage("BigSprites/Shaman.png");
         sIcon = p5.loadImage("Icons/poisoned.png");
         special = """
-                Draws power
-                from the Gods to try
-                and poison the enemy team.
-                The poison deals a fix
-                amount of damage every
-                round for 3 rounds.
-                It also reduces their
-                speed stat in 30%.
+                Draws power from the
+                Gods to try and poison
+                the enemy team. The poison
+                deals a fix amount of
+                damage every round for
+                3 rounds. It also reduces
+                their speed stat by 30%.
                 AOI, 75% accuracy""";
 
         characters[0] = new Character("Okupukutan, Gods' vessel", "Shaman", 10, 10, 10, 10, "\"Rite of Poison\"", special, img, icon, sIcon);
@@ -52,28 +51,27 @@ public class UsableCharacters {
         special = """
                 Enters a state of
                 absolute anger. It
-                boosts the attack and
+                buffs the attack and
                 speed stats of the
-                user in 50%""";
+                user by 50%""";
 
 
-        characters[2] = new Character("Suruyaha, Flesh Slasher", "Barbarian", 10, 10, 10, 10, "\"RAGE!\"", special, img, icon, sIcon);
+        characters[2] = new Character("Emma-O, Flesh Slasher", "Barbarian", 10, 10, 10, 10, "\"RAGE!\"", special, img, icon, sIcon);
 
         //character 4
         icon = p5.loadImage("Icons/WarriorIcon.png");
         img = p5.loadImage("BigSprites/Warrior.png");
-        sIcon = p5.loadImage("Icons/attackBoost.png");
+        sIcon = p5.loadImage("Icons/warCry.png");
 
         special = """
-                Performs a strong
-                attack with a weapon
-                that deals high amounts
-                of damage to one enemy.
-                This always hits the
-                target but it can not
-                deal critical damage""";
+                Uses a vigorous
+                chant to boost the
+                team's confidence and
+                energy. It buffs the
+                user and allies' attack
+                and defence stats by 30%""";
 
-        characters[3] = new Character("Bernat Alcover de Manacor", "Warrior", 10, 10, 10, 10, "\"Strong Attack\"", special, img, icon, sIcon);
+        characters[3] = new Character("Jordi Alcover of Manacor", "Warrior", 10, 10, 10, 10, "\"War Cry\"", special, img, icon, sIcon);
 
         //character 5
         icon = p5.loadImage("Icons/MageIcon.png");
@@ -87,7 +85,23 @@ public class UsableCharacters {
                 of damage to them.
                 AOI, 80% accuracy""";
 
-        characters[4] = new Character("Rosalinda, first of her class", "Mage", 10, 10, 10, 10, "\"Fire Summoning\"", special, img, icon, sIcon);
+        characters[4] = new Character("Giulia, first of her class", "Mage", 10, 10, 10, 10, "\"Fire Summoning\"", special, img, icon, sIcon);
+
+        //character 6
+        icon = p5.loadImage("Icons/AssassinIcon.png");
+        img = p5.loadImage("BigSprites/Assassin.png");
+        sIcon = p5.loadImage("Icons/backStab.png");
+
+        special = """
+                A quick and silent
+                attack that deals
+                ginormous amounts of
+                damage to one enemy.
+                This attack always hits
+                the target and it always
+                deals critical damage.""";
+
+        characters[5] = new Character("Bertha, Fools' Shadow", "Assassin", 10, 10, 10, 10, "\"Back Stab\"", special, img, icon, sIcon);
 
     }
 }

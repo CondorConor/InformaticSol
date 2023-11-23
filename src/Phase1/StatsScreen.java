@@ -55,7 +55,7 @@ public class StatsScreen extends Screen{
 
         //rectangles
         p5.pushStyle();
-        p5.image(character.sprite, p5.width*5/32, p5.height*19/32, p5.width*6/32, p5.height*25/32);
+        p5.image(character.sprite, p5.width*5/32, p5.height*19/32, p5.width*5/32, p5.height*25/32);
         p5.image(hpIcon,p5.width*10/32, p5.height*10/32, p5.width*1/32, p5.height*2/32);
         p5.image(dmgIcon,p5.width*10/32, p5.height*16/32, p5.width*1/32, p5.height*2/32);
         p5.image(defIcon,p5.width*10/32, p5.height*22/32, p5.width*1/32, p5.height*2/32);
