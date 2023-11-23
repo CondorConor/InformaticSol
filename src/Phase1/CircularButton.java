@@ -16,7 +16,7 @@ public class CircularButton {
         this.r = r;
     }
     boolean MouseOnButton(PApplet p5){
-        return abs(PApplet.dist(x,y,p5.mouseX, p5.mouseY))<=r;
+        return PApplet.dist(x,y,p5.mouseX, p5.mouseY)<r/2;
     }
     float abs(float x){
         if(x<0){

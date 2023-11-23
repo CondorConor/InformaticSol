@@ -11,13 +11,15 @@ public class Character {
     int def; //defence
     int spd; //speed
     int currentHps;
+    float hpPercentage;
     String specialName;
     String special;
     PImage sprite;
     PImage icon;
+    PImage specialIcon;
 
     void useSpecial(){}
-    Character(String name, String role, int hps, int dmg, int def, int spd, String specialName, String special, PImage sprite, PImage icon){
+    Character(String name, String role, int hps, int dmg, int def, int spd, String specialName, String special, PImage sprite, PImage icon, PImage sIcon){
         this.name = name;
         this.role = role;
         this.hps = hps;
@@ -28,6 +30,8 @@ public class Character {
         this.special = special;
         this.sprite = sprite;
         this.icon = icon;
+        this.specialIcon = sIcon;
         this.currentHps = hps;
+        this.hpPercentage= currentHps/hps;
     }
 }

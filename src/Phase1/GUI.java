@@ -3,19 +3,16 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
 import processing.core.PImage;
-
 import java.util.Arrays;
 
 public class GUI extends PApplet {
     public enum ScreenType {TITLESCREEN, SELECTIONSCREEN, STATSCREEN, BATTLESCREEN}
-
     PFont titleFont;
     PFont textFont;
     ScreenType currentScreen;
     Screen[] screens;
     boolean pvp;
     PImage image = new PImage();
-
     public static void main(String[] args) {
         PApplet.main("Phase1.GUI", args);
     }
@@ -69,6 +66,7 @@ public class GUI extends PApplet {
             currentScreen = screens[1].screenType;
             Arrays.fill(((SelectionScreen) screens[1]).selectedCharacters, null);
         } else if (key == '3') {
+            ((BattleScreen) screens[3]).selectedCharacters = ((SelectionScreen) screens[1]).selectedCharacters;
             currentScreen = screens[2].screenType;
         } else if (key == '4') {
             currentScreen = screens[3].screenType;
@@ -112,16 +110,23 @@ public class GUI extends PApplet {
             } else if (screens[1].b4.MouseOnButton(this)) {
                 ((SelectionScreen) screens[1]).selectedCharacters[((SelectionScreen) screens[1]).firstNullPosition()] = ((SelectionScreen) screens[1]).characters.characters[frameCount % 4];
                 if (((SelectionScreen) screens[1]).firstNullPosition() == ((SelectionScreen) screens[1]).selectedCharacters.length) {
+                    ((BattleScreen) screens[3]).selectedCharacters = ((SelectionScreen) screens[1]).selectedCharacters;
                     currentScreen = screens[3].screenType;
                 }
             }
         }
-        else if (currentScreen == ScreenType.STATSCREEN&&screens[2].b1.MouseOnButton(this)) {
-            ((SelectionScreen) screens[1]).selectedCharacters[((SelectionScreen) screens[1]).firstNullPosition()] = ((StatsScreen) screens[2]).character;
-            if (((SelectionScreen) screens[1]).firstNullPosition() == ((SelectionScreen) screens[1]).selectedCharacters.length) {
-                currentScreen = screens[3].screenType;
-            }else{currentScreen=screens[1].screenType;}
+        else if (currentScreen == ScreenType.STATSCREEN) {
+            if(screens[2].b1.MouseOnButton(this)) {
+                ((SelectionScreen) screens[1]).selectedCharacters[((SelectionScreen) screens[1]).firstNullPosition()] = ((StatsScreen) screens[2]).character;
+                if (((SelectionScreen) screens[1]).firstNullPosition() == ((SelectionScreen) screens[1]).selectedCharacters.length) {
+                    ((BattleScreen) screens[3]).selectedCharacters = ((SelectionScreen) screens[1]).selectedCharacters;
+                    currentScreen = screens[3].screenType;
+                } else {
+                    currentScreen = screens[1].screenType;
+                }
+            }else if(screens[2].b2.MouseOnButton(this)) {
+                currentScreen = screens[1].screenType;
+            }
         }
     }
 }
-

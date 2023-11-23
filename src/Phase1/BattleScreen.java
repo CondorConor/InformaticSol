@@ -1,6 +1,7 @@
 package Phase1;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PFont;
 
 public class BattleScreen extends Screen{
@@ -9,6 +10,7 @@ public class BattleScreen extends Screen{
     boolean battling;
     boolean choosing;
     boolean computerWins;
+    Character[] selectedCharacters;
     void initElements(PApplet p){
         screenType = GUI.ScreenType.BATTLESCREEN;
         battling = true;
@@ -34,7 +36,7 @@ public class BattleScreen extends Screen{
                 p5.pushStyle();
                 p5.rect(p5.width * 16 / 32, p5.height * 19 / 32, p5.width * 10 / 32, p5.height * 3 / 32);
                 p5.fill(255);
-                p5.text("Character x: Steve", p5.width * 16 / 32, p5.height * 19 / 32);
+                p5.text("Character x:", p5.width * 16 / 32, p5.height * 19 / 32);
                 p5.popStyle();
 
                 b1.display(p5);
@@ -63,6 +65,18 @@ public class BattleScreen extends Screen{
 
         //rectangles
         p5.pushStyle();
+        p5.fill(0, 210, 0);
+        p5.rectMode(PConstants.CORNER);
+        try {
+            p5.rect(p5.width / 32, p5.height * 23 / 32, p5.width * 6 * selectedCharacters[0].hpPercentage / 32, p5.height * 2 / 32);
+            p5.rect(p5.width / 32, p5.height * 25 / 32, p5.width * 6 * selectedCharacters[1].hpPercentage / 32, p5.height * 2 / 32);
+            p5.rect(p5.width / 32, p5.height * 27 / 32, p5.width * 6 * selectedCharacters[2].hpPercentage / 32, p5.height * 2 / 32);
+            p5.rect(p5.width * 25 / 32, p5.height * 23 / 32, p5.width * 6 * selectedCharacters[3].hpPercentage / 32, p5.height * 2 / 32);
+            p5.rect(p5.width * 25 / 32, p5.height * 25 / 32, p5.width * 6 * selectedCharacters[4].hpPercentage / 32, p5.height * 2 / 32);
+            p5.rect(p5.width * 25 / 32, p5.height * 27 / 32, p5.width * 6 * selectedCharacters[5].hpPercentage / 32, p5.height * 2 / 32);
+        }catch (Exception ignore){}
+        p5.noFill();
+        p5.rectMode(PConstants.CENTER);
         p5.rect(p5.width*4/32, p5.height*24/32, p5.width*6/32, p5.height*2/32);
         p5.rect(p5.width*4/32, p5.height*26/32, p5.width*6/32, p5.height*2/32);
         p5.rect(p5.width*4/32, p5.height*28/32, p5.width*6/32, p5.height*2/32);
@@ -70,7 +84,7 @@ public class BattleScreen extends Screen{
         p5.rect(p5.width*28/32, p5.height*26/32, p5.width*6/32, p5.height*2/32);
         p5.rect(p5.width*28/32, p5.height*28/32, p5.width*6/32, p5.height*2/32);
 
-        p5.noFill();
+
         p5.rect(p5.width*8/32, p5.height*7/32, p5.width*3/32, p5.height*10/32);
         p5.rect(p5.width*4/32, p5.height*10/32, p5.width*3/32, p5.height*10/32);
         p5.rect(p5.width*7/32, p5.height*13/32, p5.width*3/32, p5.height*10/32);
@@ -82,12 +96,14 @@ public class BattleScreen extends Screen{
         //text
         p5.pushStyle();
         p5.fill(255);
-        p5.text("C1 HB", p5.width*4/32, p5.height*24/32);
-        p5.text("C2 HB", p5.width*4/32, p5.height*26/32);
-        p5.text("C3 HB", p5.width*4/32, p5.height*28/32);
-        p5.text("C4 HB", p5.width*28/32, p5.height*24/32);
-        p5.text("C5 HB", p5.width*28/32, p5.height*26/32);
-        p5.text("C6 HB", p5.width*28/32, p5.height*28/32);
+        try {
+            p5.text(selectedCharacters[0].name, p5.width * 4 / 32, p5.height * 24 / 32);
+            p5.text(selectedCharacters[1].name, p5.width * 4 / 32, p5.height * 26 / 32);
+            p5.text(selectedCharacters[2].name, p5.width * 4 / 32, p5.height * 28 / 32);
+            p5.text(selectedCharacters[3].name, p5.width * 28 / 32, p5.height * 24 / 32);
+            p5.text(selectedCharacters[4].name, p5.width * 28 / 32, p5.height * 26 / 32);
+            p5.text(selectedCharacters[5].name, p5.width * 28 / 32, p5.height * 28 / 32);
+        }catch(Exception ignore){}
         p5.popStyle();
 
 
