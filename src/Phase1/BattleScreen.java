@@ -3,6 +3,9 @@ package Phase1;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
+import processing.core.PImage;
+
+import java.util.Arrays;
 
 public class BattleScreen extends Screen{
 
@@ -22,7 +25,32 @@ public class BattleScreen extends Screen{
         b4 = new RectButton(p, "Play again", p.width*16/32, p.height*12/32, p.width*12/32, p.height*4/32, true);
         b5 = new RectButton(p, "Reselect characters", p.width*16/32, p.height*16/32, p.width*12/32, p.height*4/32, true);
         b6 = new RectButton(p, "Exit", p.width*16/32, p.height*20/32, p.width*12/32, p.height*4/32, true);
+        selectedCharacters = new Character[6];
+        Arrays.fill(selectedCharacters, null);
     };
+    void initAnimationElements(PApplet p5, PImage image){
+        int a;
+        selectedCharacters[0].x =p5.width*8/32;
+        selectedCharacters[1].x =p5.width*7/32;
+        selectedCharacters[2].x =p5.width*9/32;
+        selectedCharacters[3].x =p5.width*24/32;
+        selectedCharacters[4].x =p5.width*25/32;
+        selectedCharacters[5].x =p5.width*23/32;
+
+        for(int i=0;i<selectedCharacters.length;i++){
+            selectedCharacters[i].w =p5.width*4/32;
+            selectedCharacters[i].h =p5.height*4/32;
+            selectedCharacters[i].damagedSprite = image;
+            if(i<3){
+                a=3*i+7;
+            }else{
+                a =3*i-2;
+            }
+            System.out.println(a);
+
+            selectedCharacters[i].y = p5.height*a/32;
+        }
+    }
     void display(PApplet p5, PFont fontTitle, int frameCount, boolean pvp){
 
         if(battling) {
@@ -62,6 +90,15 @@ public class BattleScreen extends Screen{
             b6.display(p5);
         }
 
+        //characters
+        p5.pushStyle();
+        p5.imageMode(PConstants.CENTER);
+        try {
+            for (int i = 0; i < selectedCharacters.length; i++) {
+                selectedCharacters[i].standAnimation(p5);
+            }
+        }catch (Exception ignore){}
+        p5.popStyle();
 
         //rectangles
         p5.pushStyle();
@@ -83,14 +120,6 @@ public class BattleScreen extends Screen{
         p5.rect(p5.width*27/32, p5.height*24/32, p5.width*8/32, p5.height*2/32);
         p5.rect(p5.width*27/32, p5.height*26/32, p5.width*8/32, p5.height*2/32);
         p5.rect(p5.width*27/32, p5.height*28/32, p5.width*8/32, p5.height*2/32);
-
-
-        p5.rect(p5.width*8/32, p5.height*7/32, p5.width*3/32, p5.height*10/32);
-        p5.rect(p5.width*4/32, p5.height*10/32, p5.width*3/32, p5.height*10/32);
-        p5.rect(p5.width*7/32, p5.height*13/32, p5.width*3/32, p5.height*10/32);
-        p5.rect(p5.width*24/32, p5.height*7/32, p5.width*3/32, p5.height*10/32);
-        p5.rect(p5.width*28/32, p5.height*10/32, p5.width*3/32, p5.height*10/32);
-        p5.rect(p5.width*25/32, p5.height*13/32, p5.width*3/32, p5.height*10/32);
         p5.popStyle();
 
         //text

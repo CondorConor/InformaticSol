@@ -1,10 +1,7 @@
 package Phase1;
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PFont;
 import processing.core.PImage;
-
-import javax.management.StringValueExp;
 
 public class StatsScreen extends Screen{
     Character character;

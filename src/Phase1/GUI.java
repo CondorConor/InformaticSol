@@ -1,6 +1,5 @@
 package Phase1;
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PFont;
 import processing.core.PImage;
 import java.util.Arrays;
@@ -12,7 +11,7 @@ public class GUI extends PApplet {
     ScreenType currentScreen;
     Screen[] screens;
     boolean pvp;
-    PImage image = new PImage();
+    PImage image;
     public static void main(String[] args) {
         PApplet.main("Phase1.GUI", args);
     }
@@ -43,7 +42,7 @@ public class GUI extends PApplet {
         textFont = createFont("EpsonPixeled.ttf", 20);
         currentScreen = ScreenType.TITLESCREEN;
         textFont(textFont, 15);
-
+        image = loadImage("SmallSprites/Warrior/Damaged.png");
     }
 
     public void draw() {
@@ -108,18 +107,24 @@ public class GUI extends PApplet {
                     ((SelectionScreen) screens[1]).selectedCharacters[((SelectionScreen) screens[1]).firstNullPosition() - 1] = null;
                 }
             } else if (screens[1].b4.MouseOnButton(this)) {
-                ((SelectionScreen) screens[1]).selectedCharacters[((SelectionScreen) screens[1]).firstNullPosition()] = ((SelectionScreen) screens[1]).characters.characters[frameCount % 4];
+                ((SelectionScreen) screens[1]).selectedCharacters[((SelectionScreen) screens[1]).firstNullPosition()] = ((SelectionScreen) screens[1]).characters.characters[frameCount % 6].createCopy();
                 if (((SelectionScreen) screens[1]).firstNullPosition() == ((SelectionScreen) screens[1]).selectedCharacters.length) {
-                    ((BattleScreen) screens[3]).selectedCharacters = ((SelectionScreen) screens[1]).selectedCharacters;
+                    for (int i = 0; i < ((BattleScreen) screens[3]).selectedCharacters.length; i++){
+                        ((BattleScreen) screens[3]).selectedCharacters[i] = ((SelectionScreen) screens[1]).selectedCharacters[i].createCopy();
+                    }
+                    ((BattleScreen) screens[3]).initAnimationElements(this, image);
                     currentScreen = screens[3].screenType;
                 }
             }
         }
         else if (currentScreen == ScreenType.STATSCREEN) {
             if(screens[2].b1.MouseOnButton(this)) {
-                ((SelectionScreen) screens[1]).selectedCharacters[((SelectionScreen) screens[1]).firstNullPosition()] = ((StatsScreen) screens[2]).character;
+                ((SelectionScreen) screens[1]).selectedCharacters[((SelectionScreen) screens[1]).firstNullPosition()] = ((StatsScreen) screens[2]).character.createCopy();
                 if (((SelectionScreen) screens[1]).firstNullPosition() == ((SelectionScreen) screens[1]).selectedCharacters.length) {
-                    ((BattleScreen) screens[3]).selectedCharacters = ((SelectionScreen) screens[1]).selectedCharacters;
+                    for (int i = 0; i < ((BattleScreen) screens[3]).selectedCharacters.length; i++){
+                        ((BattleScreen) screens[3]).selectedCharacters[1] = ((SelectionScreen) screens[1]).selectedCharacters[i].createCopy();
+                    }
+                    ((BattleScreen) screens[3]).initAnimationElements(this, image);
                     currentScreen = screens[3].screenType;
                 } else {
                     currentScreen = screens[1].screenType;
