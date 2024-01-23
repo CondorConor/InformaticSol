@@ -11,14 +11,16 @@ public class BattleScreen extends Screen{
 
     GUI.ScreenType screenType;
     boolean battling;
-    boolean choosing;
+    public boolean choosing;
     boolean computerWins;
+    Character.AnimationStage stage;
     Character[] selectedCharacters;
     void initElements(PApplet p){
         screenType = GUI.ScreenType.BATTLESCREEN;
         battling = true;
-        choosing = true;
+        choosing = false;
         computerWins = false;
+        stage = Character.AnimationStage.PREPARING;
         b1 = new RectButton(p, "Attack", p.width*16/32, p.height*22/32, p.width*10/32, p.height*3/32, true);
         b2 = new RectButton(p, "Defend", p.width*16/32, p.height*25/32, p.width*10/32, p.height*3/32, true);
         b3 = new RectButton(p, "Special", p.width*16/32, p.height*28/32, p.width*10/32, p.height*3/32, true);
@@ -27,31 +29,36 @@ public class BattleScreen extends Screen{
         b6 = new RectButton(p, "Exit", p.width*16/32, p.height*20/32, p.width*12/32, p.height*4/32, true);
         selectedCharacters = new Character[6];
         Arrays.fill(selectedCharacters, null);
-    };
-    void initAnimationElements(PApplet p5, PImage image){
+    }
+    void initAnimationElements(PApplet p5){
         int a;
-        selectedCharacters[0].x =p5.width*8/32;
+        selectedCharacters[0].x =p5.width*9/32;
         selectedCharacters[1].x =p5.width*7/32;
-        selectedCharacters[2].x =p5.width*9/32;
-        selectedCharacters[3].x =p5.width*24/32;
+        selectedCharacters[2].x =p5.width*8/32;
+        selectedCharacters[3].x =p5.width*23/32;
         selectedCharacters[4].x =p5.width*25/32;
-        selectedCharacters[5].x =p5.width*23/32;
+        selectedCharacters[5].x =p5.width*24/32;
 
         for(int i=0;i<selectedCharacters.length;i++){
-            selectedCharacters[i].w =p5.width*4/32;
-            selectedCharacters[i].h =p5.height*4/32;
-            selectedCharacters[i].damagedSprite = image;
+            selectedCharacters[i].w =p5.width*7/32;
+            selectedCharacters[i].h =p5.height*7/32;
             if(i<3){
-                a=3*i+7;
+                a=4*i+7;
+                selectedCharacters[i].right = false;
             }else{
-                a =3*i-2;
+                a=4*i-5;
+                selectedCharacters[i].right = true;
             }
-            System.out.println(a);
-
             selectedCharacters[i].y = p5.height*a/32;
+            selectedCharacters[i].initialX = selectedCharacters[i].x;
+            selectedCharacters[i].initialY = selectedCharacters[i].y;
         }
+
     }
-    void display(PApplet p5, PFont fontTitle, int frameCount, boolean pvp){
+    void toggleChoosing(){
+        choosing = !choosing;
+    }
+    void display(PApplet p5, PFont fontTitle, int frameCount, boolean pvp, int clock){
 
         if(battling) {
             if(choosing) {
@@ -70,6 +77,27 @@ public class BattleScreen extends Screen{
                 b1.display(p5);
                 b2.display(p5);
                 b3.display(p5);
+
+                //characters
+                p5.pushStyle();
+                p5.imageMode(PConstants.CENTER);
+                try {
+                    for (Character selectedCharacter : selectedCharacters) {
+                        selectedCharacter.standAnimation(p5, clock);
+                    }
+                }catch (Exception ignore){}
+                p5.popStyle();
+            }else{
+                try {
+                    if(stage!= Character.AnimationStage.END) {
+                        stage=selectedCharacters[3].attackAnimation(p5,stage,selectedCharacters[0],clock);
+                    }else{selectedCharacters[0].standStill(p5);selectedCharacters[3].standStill(p5);}
+                    for (int i = 1; i < selectedCharacters.length; i++) {
+                        if(i!=3) {
+                            selectedCharacters[i].standStill(p5);
+                        }
+                    }
+                }catch (Exception ignore){}
             }
         }else{
             p5.pushStyle();
@@ -90,15 +118,6 @@ public class BattleScreen extends Screen{
             b6.display(p5);
         }
 
-        //characters
-        p5.pushStyle();
-        p5.imageMode(PConstants.CENTER);
-        try {
-            for (int i = 0; i < selectedCharacters.length; i++) {
-                selectedCharacters[i].standAnimation(p5);
-            }
-        }catch (Exception ignore){}
-        p5.popStyle();
 
         //rectangles
         p5.pushStyle();

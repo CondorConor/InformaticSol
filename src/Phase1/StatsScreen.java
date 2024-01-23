@@ -21,7 +21,7 @@ public class StatsScreen extends Screen{
         defIcon = p5.loadImage("Icons/armor.png");
         spdIcon = p5.loadImage("Icons/boots.png");
     }
-    void display(PApplet p5, PFont fontTitle, int frameCount, boolean pvp){
+    void display(PApplet p5, PFont fontTitle, int frameCount, boolean pvp, int clock){
         //button
         b1.display(p5);
         b2.display(p5);

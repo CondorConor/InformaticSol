@@ -39,7 +39,7 @@ public class SelectionScreen extends Screen{
         if(i+1>characters.characters.length-1){return 0;}
         return i+1;
     }
-    void display(PApplet p5, PFont fontTitle,int frameCount, boolean pvp){
+    void display(PApplet p5, PFont fontTitle,int frameCount, boolean pvp, int clock){
         p5.pushStyle();
         p5.fill(255);
         cb1.display(p5, characters.characters[position].icon);

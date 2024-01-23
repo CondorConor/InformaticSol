@@ -18,7 +18,7 @@ public class TitleScreen extends Screen{
         //pvp button
         b2 = new RectButton(p5,"2 players", p5.width*16/32,p5.height*24/32,p5.width*14/32,p5.height*2/32,true);
     }
-    void display(PApplet p5, PFont fontTitle, int iterator, boolean pvp){
+    void display(PApplet p5, PFont fontTitle, int iterator, boolean pvp, int clock){
 
         p5.pushStyle();
         p5.fill(255);
