@@ -8,9 +8,9 @@ public class row4Table {
     int displayPosition;
     String[] text;
     boolean bold;
-    int[] rsLengthPercent = {15, 35, 30, 20};
+    int[] rowsLengthPercent;
 
-    row4Table(float w, float h, float initialX, float initialY, int displayPosition, String[] text, boolean bold){
+    row4Table(float w, float h, float initialX, float initialY, int displayPosition, String[] text, int[] rowsLengttPercentage, boolean bold){
         this.w = w;
         this.h = h;
         this.initialX = initialX;
@@ -18,6 +18,7 @@ public class row4Table {
         this.displayPosition = displayPosition;
         displaceY = displayPosition*h;
         this.text = text;
+        this.rowsLengthPercent = rowsLengttPercentage;
         this.bold = bold;
 
     }
@@ -33,7 +34,7 @@ public class row4Table {
         displaceY = displayPosition*h;
     }
     public row4Table copy(){
-        return new row4Table(this.w,this.h, this.initialX, this.initialY, this.displayPosition, this.text, this.bold);
+        return new row4Table(this.w,this.h, this.initialX, this.initialY, this.displayPosition, this.text, this.rowsLengthPercent, this.bold);
     }
 
     void display(PApplet p5){
@@ -42,7 +43,7 @@ public class row4Table {
         displaceX = initialX;
         int i=0;
         float radius;
-        for (int pcent:rsLengthPercent) {
+        for (int pcent: rowsLengthPercent) {
             radius = w*pcent/200;
             displaceX = displaceX+radius;
             p5.rect(displaceX, initialY+displaceY, 2*radius, h);

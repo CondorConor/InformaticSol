@@ -6,7 +6,6 @@ import processing.core.PFont;
 
 public class TitleScreen extends Screen{
 
-    public boolean pitjat = false;
     boolean keyPressed;
     void initElements(PApplet p5){
         screenType = GUI.ScreenType.TITLESCREEN;
@@ -17,6 +16,10 @@ public class TitleScreen extends Screen{
 
         //pvp button
         b2 = new RectButton(p5,"2 players", p5.width*16/32,p5.height*24/32,p5.width*14/32,p5.height*2/32,true);
+
+        //Scores
+        b3 = new RectButton(p5,"Scores", p5.width*16/32,p5.height*27/32,p5.width*5/32,p5.height*2/48,true);
+
     }
     void display(PApplet p5, PFont fontTitle, int iterator, boolean pvp, int clock){
 
@@ -28,6 +31,12 @@ public class TitleScreen extends Screen{
         if(this.keyPressed) {
             b1.display(p5);
             b2.display(p5);
+
+            p5.pushStyle();
+            p5.textSize(15);
+            b3.display(p5);
+            p5.popStyle();
+
         }else{
             if(iterator%48<=24){
                 p5.pushStyle();

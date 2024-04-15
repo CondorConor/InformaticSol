@@ -7,28 +7,36 @@ import processing.core.PImage;
 
 import java.util.Arrays;
 
+import static java.lang.Float.valueOf;
+
 public class BattleScreen extends Screen{
 
-    GUI.ScreenType screenType;
     boolean battling;
-    public boolean choosing;
+    boolean choosing;
+    boolean targeting = false;
     boolean computerWins;
-    Character.AnimationStage stage;
+    int characterActing = 1;
+    int characterChoosing = 0;
+    int arrowPointingAt = 0;
     Character[] selectedCharacters;
+    Character[] initiative = new Character[6];
+    Character[] targets = new Character[6];
+    Character.Action[] actions = new Character.Action[6];
+    Item[] items = new Item[1];
     void initElements(PApplet p){
         screenType = GUI.ScreenType.BATTLESCREEN;
         battling = true;
-        choosing = false;
+        choosing = true;
         computerWins = false;
-        stage = Character.AnimationStage.PREPARING;
         b1 = new RectButton(p, "Attack", p.width*16/32, p.height*22/32, p.width*10/32, p.height*3/32, true);
         b2 = new RectButton(p, "Defend", p.width*16/32, p.height*25/32, p.width*10/32, p.height*3/32, true);
-        b3 = new RectButton(p, "Special", p.width*16/32, p.height*28/32, p.width*10/32, p.height*3/32, true);
+        b3 = new RectButton(p, "Special", p.width*16/32, p.height*28/32, p.width*10/32, p.height*3/32, false);
         b4 = new RectButton(p, "Play again", p.width*16/32, p.height*12/32, p.width*12/32, p.height*4/32, true);
         b5 = new RectButton(p, "Reselect characters", p.width*16/32, p.height*16/32, p.width*12/32, p.height*4/32, true);
         b6 = new RectButton(p, "Exit", p.width*16/32, p.height*20/32, p.width*12/32, p.height*4/32, true);
         selectedCharacters = new Character[6];
         Arrays.fill(selectedCharacters, null);
+        items[0] = new Item(p.loadImage("SmallSprites/Items/Arrow.png"),selectedCharacters[0]);
     }
     void initAnimationElements(PApplet p5){
         int a;
@@ -52,26 +60,77 @@ public class BattleScreen extends Screen{
             selectedCharacters[i].y = p5.height*a/32;
             selectedCharacters[i].initialX = selectedCharacters[i].x;
             selectedCharacters[i].initialY = selectedCharacters[i].y;
+            selectedCharacters[i].projectileX = selectedCharacters[i].x;
+            selectedCharacters[i].projectileY = selectedCharacters[i].y-selectedCharacters[i].h/4;
         }
+    }
 
+    void orderInitiative(){
+        Character[] tempC = new Character[6];
+        Character[] tempT = new Character[6];
+        Character.Action[] tempA = new Character.Action[6];
+        for(int i = 0; i<tempC.length;i++){
+            int maxSpd = 0;
+            int maxIndex = 0;
+            for(int j = 0; j<actions.length;j++){
+                try {
+                    if (initiative[j].spd > maxSpd) {
+                        maxSpd = initiative[j].spd;
+                        maxIndex = j;
+                    }
+                }catch(NullPointerException ignore){}
+            }
+            tempC[i] = initiative[maxIndex];
+            tempT[i] = targets[maxIndex];
+            tempA[i] = actions[maxIndex];
+            initiative[maxIndex] = null;
+            targets[maxIndex] = null;
+            actions[maxIndex] = null;
+        }
+        initiative = tempC;
+        targets = tempT;
+        actions = tempA;
     }
     void toggleChoosing(){
         choosing = !choosing;
     }
+    void toggleTargeting(){
+        targeting = !targeting;
+    }
     void display(PApplet p5, PFont fontTitle, int frameCount, boolean pvp, int clock){
-
         if(battling) {
-            if(choosing) {
+            if (targeting) {
                 p5.pushStyle();
                 p5.fill(255);
                 p5.textFont(fontTitle, 30);
-                p5.text("Player x choosing", p5.width * 16 / 32, p5.height / 32);
+                p5.text("Player " + (characterChoosing < 3 ? "1" : "2") + " choosing", p5.width * 16 / 32, p5.height / 32);
+                p5.popStyle();
+
+                p5.pushStyle();
+                p5.imageMode(PConstants.CENTER);
+                try {
+                    for (Character selectedCharacter : selectedCharacters) {
+                        selectedCharacter.standStill(p5);
+                    }
+                } catch (Exception ignore) {
+                }
+                p5.popStyle();
+
+                items[0].upDownAnimation(p5,clock);
+                items[0].display(p5);
+
+
+            } else if(choosing) {
+                p5.pushStyle();
+                p5.fill(255);
+                p5.textFont(fontTitle, 30);
+                p5.text("Player " + (characterChoosing < 3 ? "1" : "2") + " choosing", p5.width * 16 / 32, p5.height / 32);
                 p5.popStyle();
 
                 p5.pushStyle();
                 p5.rect(p5.width * 16 / 32, p5.height * 19 / 32, p5.width * 10 / 32, p5.height * 3 / 32);
                 p5.fill(255);
-                p5.text("Character x:", p5.width * 16 / 32, p5.height * 19 / 32);
+                p5.text("Character " + characterChoosing + ": ", p5.width * 16 / 32, p5.height * 19 / 32);
                 p5.popStyle();
 
                 b1.display(p5);
@@ -85,21 +144,41 @@ public class BattleScreen extends Screen{
                     for (Character selectedCharacter : selectedCharacters) {
                         selectedCharacter.standAnimation(p5, clock);
                     }
-                }catch (Exception ignore){}
+                } catch (Exception ignore) {
+                }
                 p5.popStyle();
-            }else{
-                try {
-                    if(stage!= Character.AnimationStage.END) {
-                        stage=selectedCharacters[3].attackAnimation(p5,stage,selectedCharacters[0],clock);
-                    }else{selectedCharacters[0].standStill(p5);selectedCharacters[3].standStill(p5);}
-                    for (int i = 1; i < selectedCharacters.length; i++) {
-                        if(i!=3) {
+                if (initiative[characterChoosing] == null) {
+                    initiative[characterChoosing] = selectedCharacters[characterChoosing];
+                }
+                if (actions[characterChoosing] != null) {
+                    characterChoosing++;
+                }
+                if (characterChoosing == actions.length) {
+                    orderInitiative();
+                    toggleChoosing();
+                }
+
+            }else {
+                if (actions[characterActing] == Character.Action.ATTACK) {
+                    for (int i = 0; i < selectedCharacters.length; i++) {
+                        if (!selectedCharacters[i].equals(initiative[characterActing]) && !selectedCharacters[i].equals(initiative[characterActing])) {
                             selectedCharacters[i].standStill(p5);
                         }
                     }
-                }catch (Exception ignore){}
+                    if (!initiative[characterActing].acted) {
+                        initiative[characterActing].attackAnimation(p5, targets[characterActing], clock);
+                    } else {
+                        initiative[characterActing].standStill(p5);
+                        targets[characterActing].standStill(p5);
+                        if(characterActing<selectedCharacters.length){
+                            characterActing++;
+                        }else{
+                            battling = false;
+                        }
+                    }
+                }
             }
-        }else{
+            } else{
             p5.pushStyle();
             p5.fill(255);
             p5.textFont(fontTitle, 40);
@@ -154,12 +233,5 @@ public class BattleScreen extends Screen{
         }catch(Exception ignore){}
         p5.popStyle();
 
-
-
-
     }
-
-
-
-
 }
