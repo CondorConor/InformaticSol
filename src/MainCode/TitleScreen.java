@@ -1,4 +1,4 @@
-package Phase1;
+package MainCode;
 
 
 import processing.core.PApplet;
@@ -7,12 +7,14 @@ import processing.core.PFont;
 public class TitleScreen extends Screen{
 
     boolean keyPressed;
+    String namePlayer1;
+    String namePlayer2;
     void initElements(PApplet p5){
         screenType = GUI.ScreenType.TITLESCREEN;
         keyPressed = false;
 
         //pve button
-        b1 = new RectButton(p5,"1 player", p5.width*16/32,p5.height*20/32,p5.width*14/32,p5.height*2/32,true);
+        b1 = new RectButton(p5,"1 player", p5.width*16/32,p5.height*20/32,p5.width*14/32,p5.height*2/32,false);
 
         //pvp button
         b2 = new RectButton(p5,"2 players", p5.width*16/32,p5.height*24/32,p5.width*14/32,p5.height*2/32,true);

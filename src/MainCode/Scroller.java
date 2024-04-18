@@ -1,9 +1,9 @@
-package Phase1;
+package MainCode;
 
 import processing.core.PApplet;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -66,7 +66,25 @@ public class Scroller {
         titleRow = new row4Table(rowW, rowH, tableInitialX, tableInitialY, 0, table == Tables.players?rowSectionsPlayers:rowSectionsGames, table == Tables.players?rowsLengthPercentPlayers:rowsLengthPercentGames,true);
     }
     void setupPlayerTable(){
-        Object[] names = GUI.db.getColumnFrom(1, "players");
+        Object[][] names1 = GUI.db.getInfoTable("SELECT COUNT(*), player1 FROM games GROUP BY player1 ORDER BY COUNT(*) DESC", "games", 2);
+        Object[][] names2 = GUI.db.getInfoTable("SELECT COUNT(*), player2 FROM games GROUP BY player2 ORDER BY COUNT(*) DESC", "games", 2);
+        List<String> namesList = new ArrayList<>();
+        for(int i = 0; i<names1.length;i++){
+            namesList.add((String)names1[i][1]);
+        }
+        for(int i  = 0; i<names2.length;i++){
+            boolean found = false;
+            for(int j = 0; j<names1.length;j++){
+                if (names1[j][1].equals(names2[i][1])) {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found){
+                namesList.add((String)names2[i][1]);
+            }
+        }
+        String[] names = namesList.toArray(String[]::new);
         playersTable = new String[names.length][6];
         double[] winPercent = new double[playersTable.length];
         for (int i = 0; i<names.length;i++) {
@@ -74,7 +92,7 @@ public class Scroller {
             playersTable[i][0] = Integer.toString(i);
 
             //name
-            playersTable[i][1] = (String)names[i];
+            playersTable[i][1] = names[i];
 
             //favouriteCharacter
             List<Object[]> characters = new ArrayList<>();
@@ -185,7 +203,8 @@ public class Scroller {
 
             //firstGameDate
             try{
-                playersTable[i][5] = (String)GUI.db.getInfoTable("SELECT MIN(gameDate) FROM games WHERE player1 = '"+playersTable[i][1]+"'", "games",1)[0][0];
+                Date date = (Date)GUI.db.getInfoTable("SELECT MIN(gameDate) FROM games WHERE player1 = '"+playersTable[i][1]+"'" + " OR player2 = '"+playersTable[i][1]+"'", "games",1)[0][0];
+                playersTable[i][5] = date.toString();
             }catch(NullPointerException e){
                 System.out.println(e);
                 playersTable[i][5] = null;

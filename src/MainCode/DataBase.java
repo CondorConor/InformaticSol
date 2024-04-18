@@ -1,11 +1,10 @@
-package Phase1;
+package MainCode;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DataBase {
@@ -169,7 +168,7 @@ public class DataBase {
             return null;
         }
     }
-    public void insert(String tableName, String[] values){
+    boolean insert(String tableName, String[] values){
         try{
             String vs = "(";
             vs = vs.concat(bigConcat(values));
@@ -180,9 +179,12 @@ public class DataBase {
             cols = cols.concat(")");
             System.out.println(cols);
             query.execute("INSERT INTO " + tableName + " " + cols + " VALUES " + vs);
+            System.out.println("Inserted correctly values " + vs);
+            return true;
         } catch(Exception e){
             System.out.println("Failure to insert");
             System.out.println(e);
+            return false;
         }
     }
 

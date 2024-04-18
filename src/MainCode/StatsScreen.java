@@ -1,4 +1,4 @@
-package Phase1;
+package MainCode;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
@@ -23,7 +23,11 @@ public class StatsScreen extends Screen{
     }
     void display(PApplet p5, PFont fontTitle, int frameCount, boolean pvp, int clock){
         //button
-        if(!character.role.equals("Warrior") && !character.role.equals("Paladin") && !character.role.equals("Mage")){b1.enabled = false;}
+        if(!character.role.equals("Warrior") && !character.role.equals("Paladin") && !character.role.equals("Mage")) {
+            b1.enabled = false;
+        }else{
+            b1.enabled = true;
+        }
         b1.display(p5);
         b2.display(p5);
 

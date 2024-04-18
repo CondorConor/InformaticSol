@@ -1,9 +1,7 @@
-package Phase1;
+package MainCode;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-
-import static java.lang.Math.sqrt;
 
 public class CircularButton {
 

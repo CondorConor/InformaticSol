@@ -1,4 +1,4 @@
-package Phase1;
+package MainCode;
 
 import processing.core.PApplet;
 import processing.core.PFont;

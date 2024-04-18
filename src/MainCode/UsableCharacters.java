@@ -1,4 +1,4 @@
-package Phase1;
+package MainCode;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -38,7 +38,7 @@ public class UsableCharacters {
                 user and allies' attack
                 and defence stats by 30%""";
 
-        characters[0] = new Character("Jordi Alcover of Manacor", "Warrior", 10, 10, 10, 10, "\"War Cry\"", special, img, icon, sIcon, Character.AttackType.JUMP, extraW);
+        characters[0] = new Character("Jordi Alcover of Manacor", "Warrior", 60, 50, 14, 7, "\"War Cry\"", special, img, icon, sIcon, Character.AttackType.JUMP, extraW);
         characters[0].initAnimationSprites(p5);
 
         //character 2
@@ -54,7 +54,7 @@ public class UsableCharacters {
                 and nullifying any
                 negative status effects""";
 
-        characters[1] = new Character("Isil III of Talayotum", "Paladin", 10, 10, 10, 10, "\"Healing\"", special, img, icon, sIcon, Character.AttackType.JUMP, extraW);
+        characters[1] = new Character("Isil III of Talayotum", "Paladin", 80, 40, 17, 3, "\"Healing\"", special, img, icon, sIcon, Character.AttackType.JUMP, extraW);
         characters[1].initAnimationSprites(p5);
 
 
@@ -71,7 +71,7 @@ public class UsableCharacters {
                 of damage to them.
                 AOI, 80% accuracy""";
 
-        characters[2] = new Character("Giulia, first of her class", "Mage", 10, 10, 10, 10, "\"Fire Summoning\"", special, img, icon, sIcon, Character.AttackType.RANGED, extraW);
+        characters[2] = new Character("Giulia, first of her class", "Mage", 50, 50, 5, 12, "\"Fire Summoning\"", special, img, icon, sIcon, Character.AttackType.RANGED, extraW);
         characters[2].attackSprites = new PImage[7];
         characters[2].attackSpritesRight = new PImage[7];
         characters[2].initAnimationSprites(p5);
